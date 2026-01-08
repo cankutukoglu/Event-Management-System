@@ -1,0 +1,45 @@
+<h1 class="text-3xl font-extrabold text-center text-gray-900 mb-8">
+  <%= @event.title %>
+</h1>
+
+<% if @event.photo.attached? %>
+  <div class="flex justify-center mb-6">
+    <%= image_tag(@event.photo, class: "rounded-lg shadow-md w-full max-w-md object-cover")%>
+  </div>  
+<% end %>
+
+<div class="bg-white p-6 rounded-xl shadow-md mb-6 max-w-3xl mx-auto">
+  <p class="text-gray-800 text-lg mb-4">
+    <span class="font-semibold">Description:</span> <%= @event.description %>
+  </p>
+
+  <div class="space-y-2 text-sm text-gray-700">
+    <p><span class="font-semibold">Date:</span> <%= @event.date.strftime("%B %d, %Y") %></p>
+    <p><span class="font-semibold">Time:</span> <%= @event.time.strftime("%I:%M %p") %></p>
+    <p><span class="font-semibold">Location:</span> <%= @event.location %></p>
+    <p><span class="font-semibold">Category:</span> <%= @event.category.to_s.capitalize %></p>
+  </div>
+</div>
+
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 max-w-3xl mx-auto mt-8">
+  <%= link_to "← Back", events_path, class: "text-blue-600 hover:text-blue-800 font-semibold transition" %>
+
+  <% if Current.user.admin? %>
+    <div class="flex space-x-4">
+      <%= link_to "Edit", edit_event_path(@event), class: "text-yellow-600 hover:text-yellow-800 font-semibold transition" %>
+      <%= button_to "Delete", @event, method: :delete, data: { turbo_confirm: "Are you sure to delete?" }, class: "text-red-600 hover:text-red-800 font-semibold transition" %>
+    </div>
+  <% end %>
+
+  <% if Current.user.regular? %>
+    <div>
+      <% if @event.registrations.exists?(user: Current.user) %>
+        <% if @registration = @event.registrations.find_by!(user: Current.user) %>
+          <%= button_to "Cancel Registration", cancel_registration_path(@registration), method: :delete, data: { turbo_confirm: "Are you sure to cancel?" }, class: "bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md font-semibold transition" %>
+        <% end %>
+      <% else %>
+        <%= button_to "Register", event_registrations_path(@event), method: :post, data: { turbo_confirm: "Are you sure to register?" }, class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-semibold transition" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

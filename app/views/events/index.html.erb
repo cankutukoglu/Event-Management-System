@@ -1,0 +1,44 @@
+<h1 class="text-4xl font-extrabold text-gray-900 mb-8 text-center">Events</h1>
+
+<div class="mb-8 flex flex-col items-center gap-y-4">
+  <% if Current.user.admin? %>
+    <div class="flex gap-x-3 mb-2">
+      <%= link_to "➕ New Event", new_event_path, class: "inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-200 ease-in-out" %>
+      <%= link_to "Export CSV", export_csv_events_path(format: :csv), class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-200 ease-in-out" %>
+    </div>
+  <% else %>
+    <%= link_to "All Registrations", all_registrations_path, class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-200 ease-in-out mb-2" %>
+  <% end %>
+
+  <form action="/events" method="get">
+    <select
+      name="category"
+      id="category"
+      onchange="this.value ? this.form.submit() : window.location = '/events'"
+      class="inline-block bg-white border border-gray-300 text-gray-800 font-semibold py-2 px-3 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      style="min-width: 190px;"
+    >
+      <option value="">Select a category</option>
+      <option value="entertainment" <%= 'selected' if params[:category] == 'entertainment' %>>Entertainment</option>
+      <option value="dining" <%= 'selected' if params[:category] == 'dining' %>>Dining</option>
+      <option value="business" <%= 'selected' if params[:category] == 'business' %>>Business</option>
+      <option value="sports" <%= 'selected' if params[:category] == 'sports' %>>Sports</option>
+      <option value="education" <%= 'selected' if params[:category] == 'education' %>>Education</option>
+    </select>
+  </form>
+</div>
+
+<div id="events" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  <% @events.each do |event| %>
+    <%= link_to event, class: "block group" do %>
+      <div class="bg-white border border-gray-200 rounded-xl shadow-sm group-hover:shadow-lg transition-all duration-200 p-6">
+        <h2 class="text-xl font-semibold text-gray-800 group-hover:text-blue-600 transition">
+          <%= event.title %>
+        </h2>
+        <h2>
+          Participants: <%= event.registrations.count %>
+        </h2> 
+      </div>
+    <% end %>
+  <% end %>
+</div>

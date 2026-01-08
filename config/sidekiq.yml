@@ -1,0 +1,8 @@
+:scheduler:
+  :schedule:
+    remind_users:
+      cron: "01 00 * * *"
+      class: EventReminderJob
+    delete_past_events:
+      cron: "01 00 * * *"
+      class: DestroyPastEventsJob

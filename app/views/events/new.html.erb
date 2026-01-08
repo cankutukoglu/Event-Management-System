@@ -1,0 +1,13 @@
+<% if Current.user.admin? %>
+  <div class="max-w-3xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">New Event</h1>
+
+    <div class="mb-6">
+      <%= render "event_form", event: @event %>
+    </div>
+
+    <div class="flex justify-end">
+      <%= link_to "Cancel", events_path, class: "text-blue-600 hover:text-blue-800 font-semibold transition duration-150 ease-in-out" %>
+    </div>
+  </div>
+<% end %>

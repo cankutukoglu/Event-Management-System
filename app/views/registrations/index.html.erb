@@ -1,0 +1,28 @@
+<% if Current.user.regular? %>
+  <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-10">
+    Your Registrations
+  </h1>
+
+  <div class="text-center mb-8">
+    <%= link_to "← Back to Events", events_path, class: "text-blue-600 hover:text-blue-800 font-semibold transition" %>
+  </div>
+
+  <div id="registrations" class="space-y-6 max-w-3xl mx-auto">
+    <% @registrations.each do |registration| %>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition duration-200 border border-gray-200">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-2">
+          <%= registration.event.title %>
+        </h3>
+        <div class="text-sm text-gray-700 space-y-1">
+          <p><span class="font-semibold">Date:</span> <%= registration.event.date.strftime("%B %d, %Y") %></p>
+          <p><span class="font-semibold">Time:</span> <%= registration.event.time.strftime("%I:%M %p") %></p>
+          <p><span class="font-semibold">Location:</span> <%= registration.event.location %></p>
+          <p><span class="font-semibold">Category:</span> <%= registration.event.category.to_s.capitalize %></p>
+        </div>
+        <div class="mt-4">
+          <%= link_to "View Event", event_path(registration.event), class: "inline-block text-indigo-600 hover:text-indigo-800 font-semibold transition" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
