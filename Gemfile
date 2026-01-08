@@ -42,7 +42,7 @@ gem "thruster", require: false
 
 gem "tailwindcss-rails"
 
-gem "sidekiq", "~> 8.0.5"
+gem "sidekiq", "~> 8.1.0"
 gem "sidekiq-scheduler", "~> 6.0.1"
 gem "sidekiq-cron", "~> 2.3.0"
 
